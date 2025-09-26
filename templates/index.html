@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare AI Bot - AI-Powered Healthcare Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='modern_style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <h2 data-i18n="app_name">Healthcare AI Bot</h2>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#features" class="nav-link" data-i18n="nav_features">Features</a></li>
+                    <li><a href="#test-bot" class="nav-link" data-i18n="nav_test_bot">Test Bot</a></li>
+                    <li><a href="#alerts" class="nav-link" data-i18n="nav_alerts">Alerts</a></li>
+                    <li><a href="#nearby-hospitals" class="nav-link" data-i18n="nav_hospitals">Nearby Hospitals</a></li>
+                </ul>
+                <div class="language-selector">
+                    <select id="language">
+                        <option value="en">EN</option>
+                        <option value="hi">HI</option>
+                        <option value="or">OR</option>
+                    </select>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title" data-i18n="hero_title">AI-Powered Healthcare Assistant</h1>
+                <p class="hero-description">
+                    <span data-i18n="hero_desc">Accessible healthcare information in your local language. Get instant guidance on symptoms, prevention, and vaccination schedules.</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chatbot Section -->
+    <section id="test-bot" class="chatbot-section">
+        <div class="container">
+            <h2 class="section-title" data-i18n="test_bot_title">Test the Chatbot</h2>
+            
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot-message">
+                        <div class="message-content" data-i18n="welcome_msg">
+                            Hello! I'm your healthcare assistant. I can help you with symptoms, prevention tips, and vaccination schedules. What would you like to know?
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-input-container">
+                    <input 
+                        type="text" 
+                        id="chatInput" 
+                        class="chat-input" 
+                        placeholder="Type your health question..."
+                        data-i18n-placeholder="chat_placeholder"
+                        onkeypress="handleKeyPress(event)"
+                    >
+                    <button class="send-button" onclick="sendMessage()" data-i18n="btn_send">Send</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nearby Hospitals Section -->
+    <section id="nearby-hospitals" class="hospitals-section">
+        <div class="container">
+            <h2 class="section-title" data-i18n="nearby_hospitals_title">Nearby Hospitals</h2>
+            
+            <div class="location-button-container">
+                <button class="get-location-btn" onclick="getUserLocation()">
+                    <i class="fas fa-map-marker-alt"></i> <span data-i18n="btn_location">Get My Location</span>
+                </button>
+            </div>
+
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+
+            <div class="hospitals-grid" id="hospitalsList">
+                <!-- Hospital cards will be dynamically added here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <h2 class="section-title" data-i18n="features_title">Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3 data-i18n="feat_multi_title">Multi-Language Support</h3>
+                    <p data-i18n="feat_multi_desc">Get healthcare information in your preferred language</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-stethoscope"></i>
+                    </div>
+                    <h3 data-i18n="feat_symptom_title">Symptom Analysis</h3>
+                    <p data-i18n="feat_symptom_desc">Quick assessment of your symptoms with AI-powered insights</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-virus"></i>
+                    </div>
+                    <h3 data-i18n="feat_prev_title">Prevention Tips</h3>
+                    <p data-i18n="feat_prev_desc">Stay healthy with personalized prevention recommendations</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-syringe"></i>
+                    </div>
+                    <h3 data-i18n="feat_vax_title">Vaccination Schedule</h3>
+                    <p data-i18n="feat_vax_desc">Keep track of important vaccinations and immunizations</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-hospital"></i>
+                    </div>
+                    <h3 data-i18n="feat_hosp_title">Hospital Locator</h3>
+                    <p data-i18n="feat_hosp_desc">Find nearby hospitals and healthcare facilities instantly</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 data-i18n="feat_247_title">24/7 Availability</h3>
+                    <p data-i18n="feat_247_desc">Get healthcare guidance anytime, anywhere</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p data-i18n="footer_copy">&copy; 2024 Healthcare AI Bot. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#" data-i18n="footer_privacy">Privacy Policy</a>
+                    <a href="#" data-i18n="footer_terms">Terms of Service</a>
+                    <a href="#" data-i18n="footer_contact">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
